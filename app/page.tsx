@@ -2,26 +2,19 @@ import { Body } from "@/components/layout/Body";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Wrapper } from "@/components/layout/Wrapper";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
     <Wrapper>
       <Header>
-        <p>Header</p>
+        <h1 className="text-xl font-bold">Resumen de la cuenta</h1>
       </Header>
-      <Body>
-        <div className="flex flex-col items-center justify-center text-center min-h-full">
-          <h1 className="text-2xl font-bold">Sevilla Product Build</h1>
-          <p className="text-lg">#Season 1</p>
-        </div>
-
-        <div className="flex flex-col items-center justify-center text-center min-h-full">
-          <h1 className="text-2xl font-bold">Sevilla Product Build</h1>
-          <p className="text-lg">#Season 2</p>
-        </div>
-      </Body>
+      <Body></Body>
       <Footer>
-        <p>Footer</p>
+        <Button size="lg" className="w-full" color="primary">
+          Pagar
+        </Button>
       </Footer>
     </Wrapper>
   );
