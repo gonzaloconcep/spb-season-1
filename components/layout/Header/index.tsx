@@ -10,7 +10,7 @@ export const Header = ({ children, className }: Props) => {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 w-full h-12 bg-white border-b px-4 shrink-0 flex items-center",
+        "sticky top-0 z-50 w-full h-14 bg-white border-b px-4 py-2 shrink-0 flex items-center",
         className,
       )}
     >

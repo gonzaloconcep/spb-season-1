@@ -8,7 +8,7 @@ interface Props {
 
 export const Body = ({ children, className }: Props) => {
   return (
-    <main className={cn("flex-1 overflow-y-auto px-4", className)}>
+    <main className={cn("flex-1 overflow-y-auto px-4 bg-white", className)}>
       {children}
     </main>
   );
