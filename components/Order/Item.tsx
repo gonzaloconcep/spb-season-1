@@ -1,3 +1,5 @@
+import { MoneyLabel } from "./MoneyLabel";
+
 interface Props {
   qty: number;
   name: string;
@@ -15,9 +17,7 @@ export const Item = ({ qty, name, unitPrice }: Props) => {
         </div>
         <span className="text-base font-normal truncate">{name}</span>
       </div>
-      <span className="text-sm text-black ml-4 shrink-0 font-semibold text-right ">
-        {total.toFixed(2).replace(".", ",")}€
-      </span>
+      <MoneyLabel amount={total} />
     </div>
   );
 };

@@ -7,6 +7,7 @@ import { Wrapper } from "@/components/layout/Wrapper";
 import { Button } from "@/components/ui/button";
 import { useOrder } from "@/lib/hooks/useOrder";
 import { OrderItems } from "@/components/Order/Items";
+import { Summary } from "@/components/Order/Summary";
 
 export default function Home() {
   const { order } = useOrder();
@@ -18,6 +19,7 @@ export default function Home() {
       <Body className="">
         <OrderItems items={order.items} />
       </Body>
+      <Summary order={order} />
       <Footer>
         <Button
           size="lg"
