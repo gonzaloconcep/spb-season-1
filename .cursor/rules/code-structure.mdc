@@ -1,0 +1,30 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Code Structure Guidelines
+
+## Technology Stack
+- Next.js como framework principal
+- Tailwind CSS para estilos
+- shadcn/ui para componentes de UI
+- InstantDB para capa de datos
+
+## Directory Organization
+- Page components go in `app/`
+- Reusable components go in `components/`
+- Utilities and hooks go in `lib/`
+- Data layer code goes in `db/`
+
+## Clean Code Principles
+- No barrel files (index.ts)
+- Import directly from source files
+- Avoid obvious or redundant comments
+- Comments should only explain complex logic or non-evident decisions
+- No TODOs or incomplete code in production
+
+## Component Guidelines
+- Keep components small and focused
+- Use Tailwind CSS directly in components
+- Follow shadcn/ui installation and usage patterns

@@ -1,0 +1,387 @@
+---
+alwaysApply: true
+---
+# Component Guidelines
+
+## Plantilla Base
+
+```typescript
+// Imports ordenados
+import { type ReactNode } from 'react'
+import { useCallback } from 'react'
+import { cn } from '@/lib/utils'
+
+// Props interface
+interface Props {
+  children?: ReactNode
+  className?: string
+}
+
+export const ComponentName = ({ children, className }: Props) => {
+  return (
+    <div className={cn('base-styles', className)}>
+      {children}
+    </div>
+  )
+}
+```
+
+## Estructura de Archivos
+
+### Componentes de Página
+Los componentes específicos de una ruta van directamente dentro de `app/` siguiendo la estructura de Next.js:
+```
+app/
+  dashboard/
+    ├── page.tsx         # Página principal
+    ├── Header/
+    │   └── index.tsx
+    ├── Footer/
+    │   └── index.tsx
+    └── Stats/
+        ├── index.tsx
+        ├── types.ts
+        └── useStats.ts
+  pos/
+    [id]/
+      ├── page.tsx
+      ├── Details/
+      │   └── index.tsx
+      └── Actions/
+          └── index.tsx
+```
+
+### Agrupación de Componentes Relacionados
+Cuando hay múltiples componentes relacionados, se pueden agrupar en una carpeta:
+```
+app/
+  dashboard/
+    ├── page.tsx
+    ├── Header/
+    │   └── index.tsx
+    └── Cards/           # Grupo de componentes relacionados
+        ├── Success.tsx
+        ├── Error.tsx
+        ├── Empty.tsx
+        └── Loading.tsx
+```
+
+### Componentes Transversales
+Los componentes reutilizables van en `components/` organizados por categoría:
+```
+components/
+  ui/                    # Componentes básicos de interfaz (shadcn/ui)
+    ├── button.tsx
+    ├── input.tsx
+    └── modal.tsx
+  auth/                  # Componentes especializados para autenticación
+    ├── AuthForm/
+    ├── UserProfile/
+    └── ProtectedRoute/
+  forms/                 # Abstracciones para formularios
+    ├── FormField/
+    ├── FormValidation/
+    └── FormSubmit/
+  layout/                # Componentes de layout
+    ├── Header/
+    ├── Sidebar/
+    └── Footer/
+  data/                  # Componentes para mostrar datos
+    ├── DataTable/
+    ├── Chart/
+    └── LoadingSpinner/
+```
+
+### Reglas de Ubicación
+- **Componentes de página**: `app/[ruta]/ComponentName/` - Solo usados en esa ruta específica
+- **Componentes agrupados**: `app/[ruta]/GrupoNombre/` - Múltiples componentes relacionados en la misma ruta
+- **Componentes transversales**: `components/[categoría]/` - Usados en múltiples lugares
+- **Componentes UI básicos**: `components/ui/` - Componentes de shadcn/ui y primitivos
+- **Componentes especializados**: `components/[dominio]/` - Agrupados por dominio (auth, forms, etc.)
+
+## Mejores Prácticas
+
+### Props
+- Siempre definir interface Props
+- Usar tipos explícitos, nunca any
+- Props opcionales con `?`
+- Documentar props complejas con comentarios
+- Usar destructuring en los parámetros
+
+### Naming
+- PascalCase para nombres de componentes
+- camelCase para props y variables
+- Nombres descriptivos y explícitos
+- Sufijos comunes:
+  - `List` para listas
+  - `Item` para elementos de lista
+  - `Card` para tarjetas
+  - `Modal` para modales
+  - `Button` para botones
+
+### Estilos
+- Usar Tailwind directamente
+- Implementar className prop para extensibilidad
+- Usar cn() para combinar clases
+- Seguir el design system del proyecto
+- Mantener consistencia en espaciados
+
+### Composición
+- Un componente, una responsabilidad
+- Extraer lógica compleja a hooks
+- Evitar componentes >200 líneas
+- Usar composición sobre herencia
+- Implementar children cuando sea apropiado
+
+### Server vs Client
+```typescript
+// Server Component (default)
+export const ServerComponent = () => {
+  return <div>Rendered on server</div>
+}
+
+// Client Component
+'use client'
+export const ClientComponent = () => {
+  const [state, setState] = useState()
+  return <div>Interactive content</div>
+}
+```
+
+### Imports y Exports
+- Imports agrupados y ordenados
+- Exportar componentes como named exports
+- No usar default exports
+- No crear barrel files (index.ts)
+- Importar tipos con type
+
+```typescript
+// Imports ordenados
+import { type ReactNode } from 'react'
+import { useCallback, useState } from 'react'
+import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
+```
+
+### Estado y Efectos
+- Preferir hooks personalizados
+- useCallback para handlers
+- useMemo para cálculos pesados
+- Efectos limpios y focalizados
+- Evitar efectos innecesarios
+
+### Error Boundaries
+```typescript
+export const ComponentWithErrorBoundary = () => {
+  return (
+    <ErrorBoundary fallback={<ErrorMessage />}>
+      <Component />
+    </ErrorBoundary>
+  )
+}
+```
+
+### Loading States
+```typescript
+export const ComponentWithLoading = () => {
+  const [isLoading, setIsLoading] = useState(false)
+  
+  return (
+    <div>
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <Content />
+      )}
+    </div>
+  )
+}
+```
+
+### Componentes UI (shadcn)
+- Instalar con el CLI de shadcn
+- No modificar componentes base
+- Extender a través de composición
+- Mantener consistencia con el tema
+- Usar variants para personalización
+
+### Accesibilidad
+- Implementar roles ARIA apropiados
+- Manejar navegación por teclado
+- Asegurar contraste de colores
+- Mantener estructura semántica
+- Proporcionar textos alternativos
+
+### Testing
+- Escribir tests para lógica compleja
+- Usar testing-library/react
+- Probar diferentes estados
+- Simular interacciones
+- Mantener tests mantenibles
+
+## Ejemplos Comunes
+
+### Componente con Estado
+```typescript
+'use client'
+
+interface Props {
+  initialCount?: number
+}
+
+export const Counter = ({ initialCount = 0 }: Props) => {
+  const [count, setCount] = useState(initialCount)
+  
+  const increment = useCallback(() => {
+    setCount(prev => prev + 1)
+  }, [])
+  
+  return (
+    <div className="flex items-center gap-4">
+      <span>{count}</span>
+      <Button onClick={increment}>Increment</Button>
+    </div>
+  )
+}
+```
+
+### Componente con Hook Personalizado
+```typescript
+interface Props {
+  userId: string
+}
+
+export const UserProfile = ({ userId }: Props) => {
+  const { user, isLoading, error } = useUser(userId)
+  
+  if (isLoading) return <LoadingSpinner />
+  if (error) return <ErrorMessage error={error} />
+  
+  return (
+    <div className="space-y-4">
+      <h2>{user.name}</h2>
+      <p>{user.email}</p>
+    </div>
+  )
+}
+```
+
+### Componente Lista
+```typescript
+interface Props {
+  items: Item[]
+  onItemClick: (item: Item) => void
+}
+
+export const ItemList = ({ items, onItemClick }: Props) => {
+  return (
+    <ul className="space-y-2">
+      {items.map(item => (
+        <li key={item.id}>
+          <ItemCard item={item} onClick={() => onItemClick(item)} />
+        </li>
+      ))}
+    </ul>
+  )
+}
+```
+
+## Ejemplos de Organización
+
+### Componente de Página Específica
+```typescript
+// app/dashboard/Stats/index.tsx
+interface Props {
+  userId: string
+}
+
+export const DashboardStats = ({ userId }: Props) => {
+  const { stats, isLoading } = useDashboardStats(userId)
+  
+  return (
+    <div className="grid grid-cols-3 gap-4">
+      {/* Contenido específico del dashboard */}
+    </div>
+  )
+}
+```
+
+### Componentes Agrupados por Funcionalidad
+```typescript
+// app/dashboard/Cards/Success.tsx
+interface Props {
+  title: string
+  value: number
+}
+
+export const SuccessCard = ({ title, value }: Props) => {
+  return (
+    <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+      <h3 className="text-green-800 font-medium">{title}</h3>
+      <p className="text-2xl font-bold text-green-900">{value}</p>
+    </div>
+  )
+}
+```
+
+```typescript
+// app/dashboard/Cards/Error.tsx
+interface Props {
+  title: string
+  message: string
+}
+
+export const ErrorCard = ({ title, message }: Props) => {
+  return (
+    <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+      <h3 className="text-red-800 font-medium">{title}</h3>
+      <p className="text-red-700">{message}</p>
+    </div>
+  )
+}
+```
+
+### Componente Transversal de Auth
+```typescript
+// components/auth/ProtectedRoute/index.tsx
+interface Props {
+  children: ReactNode
+  requiredRole?: string
+}
+
+export const ProtectedRoute = ({ children, requiredRole }: Props) => {
+  const { user, isLoading } = useAuth()
+  
+  if (isLoading) return <LoadingSpinner />
+  if (!user) return <LoginForm />
+  if (requiredRole && !user.roles.includes(requiredRole)) {
+    return <UnauthorizedMessage />
+  }
+  
+  return <>{children}</>
+}
+```
+
+### Componente de Formulario Reutilizable
+```typescript
+// components/forms/FormField/index.tsx
+interface Props {
+  label: string
+  error?: string
+  required?: boolean
+  children: ReactNode
+}
+
+export const FormField = ({ label, error, required, children }: Props) => {
+  return (
+    <div className="space-y-2">
+      <label className="text-sm font-medium">
+        {label}
+        {required && <span className="text-red-500">*</span>}
+      </label>
+      {children}
+      {error && <p className="text-sm text-red-500">{error}</p>}
+    </div>
+  )
+}
+```

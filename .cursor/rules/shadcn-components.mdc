@@ -1,0 +1,38 @@
+---
+alwaysApply: true
+---
+When installing or working with UI components:
+
+1. Always use shadcn for new component installations
+2. Installation commands must follow this format:
+   ```bash
+   npx shadcn@latest add [component-name]
+   ```
+
+3. Component styling guidelines:
+   - Use Tailwind classes for custom styling
+   - Maintain the default shadcn theme tokens
+   - Place custom variants in the components.json configuration
+
+4. Component location:
+   - All shadcn components should be installed in the components/ui directory
+   - Custom components that use shadcn should be in app/components
+
+5. Best practices:
+   - Always check the shadcn documentation before customizing components
+   - Keep the components.json file updated with any new modifications
+   - Use the provided hooks and context providers from shadcn
+
+Example usage:
+```bash
+# Installing a button component
+npx shadcn@latest add button
+
+# Installing a dialog component
+npx shadcn@latest add dialog
+```
+
+Remember to:
+- Review the installed component in components/ui/[component-name]
+- Check for any required dependencies in the installation output
+- Update theme configurations in tailwind.config.ts if needed
