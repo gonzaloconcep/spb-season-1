@@ -6,15 +6,15 @@ interface Props {
   className?: string;
 }
 
-export const Wrapper = ({ children, className }: Props) => {
+export const Header = ({ children, className }: Props) => {
   return (
-    <div
+    <header
       className={cn(
-        "mx-auto w-full sm:max-w-md sm:border flex flex-col h-screen",
+        "sticky top-0 z-50 w-full h-12 bg-white border-b px-4 shrink-0 flex items-center",
         className,
       )}
     >
       {children}
-    </div>
+    </header>
   );
 };

@@ -6,15 +6,15 @@ interface Props {
   className?: string;
 }
 
-export const Wrapper = ({ children, className }: Props) => {
+export const Footer = ({ children, className }: Props) => {
   return (
-    <div
+    <footer
       className={cn(
-        "mx-auto w-full sm:max-w-md sm:border flex flex-col h-screen",
+        "sticky bottom-0 z-50 w-full bg-white px-4 shrink-0 flex items-center min-h-12 justify-center",
         className,
       )}
     >
       {children}
-    </div>
+    </footer>
   );
 };
