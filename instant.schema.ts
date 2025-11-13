@@ -13,6 +13,29 @@ const _schema = i.schema({
       imageURL: i.string().optional(),
       type: i.string().optional(),
     }),
+    sessions: i.entity({
+      createdAt: i.number(),
+      adminUserId: i.string(),
+      totalComensales: i.number().optional(),
+      status: i.string(), // 'waiting' | 'swiping' | 'completed'
+      qrCode: i.string().optional(),
+    }),
+    billItems: i.entity({
+      name: i.string(),
+      price: i.number(),
+      quantity: i.number(),
+      imageUrl: i.string().optional(),
+    }),
+    participants: i.entity({
+      name: i.string(),
+      paymentMethod: i.string(), // 'cash' | 'card'
+      isAdmin: i.boolean(),
+      joinedAt: i.number(),
+    }),
+    itemSelections: i.entity({
+      consumed: i.boolean(),
+      quantityConsumed: i.number().optional(),
+    }),
   },
   links: {
     $usersLinkedPrimaryUser: {
@@ -26,6 +49,54 @@ const _schema = i.schema({
         on: "$users",
         has: "many",
         label: "linkedGuestUsers",
+      },
+    },
+    sessionBillItems: {
+      forward: {
+        on: "billItems",
+        has: "one",
+        label: "session",
+      },
+      reverse: {
+        on: "sessions",
+        has: "many",
+        label: "billItems",
+      },
+    },
+    sessionParticipants: {
+      forward: {
+        on: "participants",
+        has: "one",
+        label: "session",
+      },
+      reverse: {
+        on: "sessions",
+        has: "many",
+        label: "participants",
+      },
+    },
+    participantItemSelections: {
+      forward: {
+        on: "itemSelections",
+        has: "one",
+        label: "participant",
+      },
+      reverse: {
+        on: "participants",
+        has: "many",
+        label: "selections",
+      },
+    },
+    itemSelectionBillItem: {
+      forward: {
+        on: "itemSelections",
+        has: "one",
+        label: "billItem",
+      },
+      reverse: {
+        on: "billItems",
+        has: "many",
+        label: "selections",
       },
     },
   },
