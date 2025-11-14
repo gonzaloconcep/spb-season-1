@@ -175,8 +175,9 @@ export default function DemoPage() {
 
   // Vista inicial: Cuenta completa
   if (viewMode === "bill") {
-    const receiptImageUrl =
-      "https://images.unsplash.com/photo-1554224311-beee415c201f?w=800&auto=format&fit=crop";
+    // Imagen de personas comiendo en restaurante
+    const restaurantImageUrl =
+      "https://images.pexels.com/photos/3171815/pexels-photo-3171815.jpeg?auto=compress&cs=tinysrgb&w=800";
 
     return (
       <Wrapper>
@@ -184,11 +185,11 @@ export default function DemoPage() {
           <h1 className="text-xl font-semibold text-black">La cuenta</h1>
         </Header>
         <Body className="">
-          {/* Receipt Image */}
+          {/* Restaurant Image */}
           <div className="mb-4 -mx-4 -mt-4">
             <img
-              src={receiptImageUrl}
-              alt="Cuenta de un restaurante sobre la mesa"
+              src={restaurantImageUrl}
+              alt="Personas comiendo juntas en un restaurante"
               className="w-full h-48 object-cover"
             />
           </div>
